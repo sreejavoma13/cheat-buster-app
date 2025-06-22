@@ -1,0 +1,67 @@
+# openapi.yaml
+openapi: 3.0.3
+info:
+  title: Search User API
+  description: API to search for a user by email.
+  version: 1.0.0
+
+paths:
+  /search-user:
+    get:
+      summary: Search for a user by email
+      description: This endpoint searches for a user in the database using their email address.
+      parameters:
+        - in: query
+          name: email
+          required: true
+          schema:
+            type: string
+            format: email
+          description: Email of the user to search for
+      responses:
+        '200':
+          description: User found successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _id:
+                    type: string
+                    description: User ID
+                  email:
+                    type: string
+                    format: email
+                  name:
+                    type: string
+                  # Add more fields as per your User schema
+        '400':
+          description: Bad Request or Validation Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: validation error
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: hurray!! your partner not the list
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: An unexpected server error
