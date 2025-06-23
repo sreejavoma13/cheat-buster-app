@@ -13,8 +13,8 @@
         <p>Find out if your partner is on other "dating" apps.</p>
 
         <form id="search-form">
-            <input type="email" id="search-input" placeholder="Enter partner's email..." required>
-            <button type="submit">Search</button>
+            <input type="text" id="search-input" placeholder="Enter partner's email or name..." required>
+            <button type="submit" id="search-button">Search</button>
         </form>
 
         <div id="results-container">
@@ -25,6 +25,6 @@
     <!-- Get Axios from a CDN -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <!-- Our custom script -->
-    <script src="script.js"></script>
+    <script type="module" src="script.js"></script>
 </body>
 </html>

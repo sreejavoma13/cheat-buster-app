@@ -1,11 +1,11 @@
+import { searchUser } from "./api.js";
+
 const searchForm = document.getElementById('search-form');
 const searchInput = document.getElementById('search-input');
+const searchButton = document.getElementById('search-button');
 const resultsContainer = document.getElementById('results-container');
 
-const API_BASE_URL = 'http://localhost:3000/api';
-
 const displayBustedResult = (user) => {
-    console.log("Received user:", user);
     resultsContainer.innerHTML = `
         <div class="card">
             <img src="${user.picture}" alt="User picture">
@@ -22,37 +22,36 @@ const displaySafeResult = (message) => {
 
 const displayError = (message) => {
     resultsContainer.innerHTML = `<p class="error">${message}</p>`;
-}
+};
 
 searchForm.addEventListener('submit', async (event) => {
     event.preventDefault();
-    const emailToSearch = searchInput.value.trim();
+    const query = searchInput.value.trim();
 
-    if (!emailToSearch) {
-        displayError('Please enter an email address.');
+    if (!query) {
+        displayError('Please enter an email or name.');
         return;
     }
 
     resultsContainer.innerHTML = '<p>Searching...</p>';
+    searchButton.disabled = true;
+    searchButton.textContent = 'Searching...';
 
     try {
-        const response = await axios.get(`${API_BASE_URL}/search`, {
-            params: {
-                email: emailToSearch
-            }
-        });
-
+        const response = await searchUser(query);
         displayBustedResult(response.data);
-
     } catch (error) {
         if (error.response && error.response.status === 400) {
-            if (error.response.data.message === "not in the list") {
+            if (error.response.data.message === "They are Loyal") {
                 displaySafeResult(error.response.data.message);
             } else {
                 displayError(error.response.data.error || 'Bad request');
             }
         } else {
-            displayError('Could not connect to the server. Please try again later.');
+            displayError('Server error or network issue.');
         }
+    } finally {
+        searchButton.disabled = false;
+        searchButton.textContent = 'Search';
     }
 });
