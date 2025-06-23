@@ -14,7 +14,6 @@ const displayBustedResult = (user) => {
             <p>They live in ${user.city}.</p>
         </div>
     `;
-    
 };
 
 const displaySafeResult = (message) => {
@@ -47,7 +46,7 @@ searchForm.addEventListener('submit', async (event) => {
 
     } catch (error) {
         if (error.response && error.response.status === 400) {
-            if (error.response.data.message === "They are Loyal") {
+            if (error.response.data.message === "not in the list") {
                 displaySafeResult(error.response.data.message);
             } else {
                 displayError(error.response.data.error || 'Bad request');

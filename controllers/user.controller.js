@@ -14,7 +14,7 @@ exports.searchuser=async(req,res)=>{
         const{email}=validateres.data
         const foundUser=await User.findOne({email:email})
         if(!foundUser){
-            return res.status(400).json({message:"They are Loyal"})
+            return res.status(400).json({message:"not in the list"})
         }
         res.status(200).json(foundUser)
     }catch{
